@@ -31,7 +31,7 @@ def naive_tsmom(rets, look_back = 252, vol_target=0.4):
     prices = (1+rets).cumprod()
     vols = pd.DataFrame(index=rets.index)
     df_tsmom = prices.pct_change(252)
-    df_strat = pd.DataFrame(index=rets.index)
+    df_strat = pd.DataFrame(index=rets.index, columns=rets.columns)
 
     for i in rets.columns:
         vols[str(i)] = rets[str(i)].ewm(ignore_na=False,
@@ -40,7 +40,7 @@ def naive_tsmom(rets, look_back = 252, vol_target=0.4):
                         min_periods=0).std(bias=False) * np.sqrt(252)
 
         for t in rets.index:
-            if t >= look_back:
+            if t > look_back:
 
                 if df_tsmom[str(i)].iloc[t-1]>=0:
                     df_strat[str(i)].iloc[t] = (vol_target/vols[str(i)].iloc[t])*rets[str(i)].iloc[t]
