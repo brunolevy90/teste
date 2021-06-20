@@ -1,7 +1,7 @@
 
 import numpy as np
 import pandas as pd
-import matplotlib.pyplot as plt
+
 
 def simulate_rets(k=3, p=10,n=1000):
     # k: number of common factors
@@ -22,15 +22,31 @@ def simulate_rets(k=3, p=10,n=1000):
     return factors, retornos
 
 
-factors, retornos = simulate_rets(k=3, p=100,n=1000)
 
 
 
-sr_factors = factors.mean()*np.sqrt(252)/np.std(factors)
-sr_rets = retornos.mean()*np.sqrt(252)/np.std(retornos)
+
+def naive_tsmom(rets, look_back = 252, vol_target=0.4):
+
+    vols = pd.DataFrame(index=rets.index)
+    df_tsmom = pd.DataFrame(index=rets.index)
+
+    for i in rets.columns:
+        vols[str(i)] = rets[str(i)].ewm(ignore_na=False,
+                        adjust=True,
+                        com=60,
+                        min_periods=0).std(bias=False) * np.sqrt(252)
+
+        for t in rets.index:
+            if t >= look_back:
+                df_tsmom[str(i)].iloc[t] =
 
 
 
+
+
+
+    return
 
 
 
