@@ -28,8 +28,10 @@ def simulate_rets(k=3, p=10,n=1000):
 
 def naive_tsmom(rets, look_back = 252, vol_target=0.4):
 
+    prices = (1+rets).cumprod()
     vols = pd.DataFrame(index=rets.index)
-    df_tsmom = pd.DataFrame(index=rets.index)
+    df_tsmom = prices.pct_change(252)
+    df_strat = pd.DataFrame(index=rets.index)
 
     for i in rets.columns:
         vols[str(i)] = rets[str(i)].ewm(ignore_na=False,
@@ -39,14 +41,17 @@ def naive_tsmom(rets, look_back = 252, vol_target=0.4):
 
         for t in rets.index:
             if t >= look_back:
-                df_tsmom[str(i)].iloc[t] =
+
+                if df_tsmom[str(i)].iloc[t-1]>=0:
+                    df_strat[str(i)].iloc[t] = (vol_target/vols[str(i)].iloc[t])*rets[str(i)].iloc[t]
+
+                else:
+                    df_strat[str(i)].iloc[t] = (vol_target / vols[str(i)].iloc[t]) *(-1* rets[str(i)].iloc[t])
 
 
+    df_final = df_strat.mean(axis=1).dropna()
 
-
-
-
-    return
+    return df_final
 
 
 
