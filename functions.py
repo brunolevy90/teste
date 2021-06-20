@@ -3,7 +3,7 @@ import numpy as np
 import pandas as pd
 
 
-def simulate_rets(k=3, p=10,n=1000):
+def simulate_rets_factors(k=3, p=10,n=1000):
     # k: number of common factors
     # p: number of assets
     # n: sample size
@@ -23,6 +23,33 @@ def simulate_rets(k=3, p=10,n=1000):
 
 
 
+def simulate_rets_mom(k=3, p=10,n=1000):
+    # k: number of common factors
+    # p: number of assets
+    # n: sample size
+    retornos = pd.DataFrame()
+
+    for i in range(p):
+        ret = []
+        ret.append(0)
+        for t in range(n):
+            if t>0:
+                temp = np.random.uniform(0, 0.3, size=1)*ret[t-1]+np.random.normal(loc=0,scale=0.01)
+                ret.append(temp)
+
+        retornos['Ret' + str(i)] = pd.Series(ret, index=range(100))
+
+
+
+
+
+
+    for i in range(p):
+        retornos['Ret' + str(i)] = factors.dot(np.random.uniform(0, 1.5, size=k)) + np.random.normal(loc=0,
+                                                                                                     scale=0.01,
+                                                                                                     size=n)
+
+    return factors, retornos
 
 
 

@@ -10,3 +10,5 @@ sr_factors = factors.mean()*np.sqrt(252)/np.std(factors)
 sr_rets = retornos.mean()*np.sqrt(252)/np.std(retornos)
 
 ret_tsmom = fc.naive_tsmom(retornos, look_back = 252, vol_target=0.4)
+
+sr_tsmom = ret_tsmom.mean()*np.sqrt(252)/np.std(ret_tsmom)
