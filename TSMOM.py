@@ -7,9 +7,10 @@ import functions as fc
 #factors, retornos = fc.simulate_rets(k=3, p=100,n=1000)
 #sr_factors = factors.mean()*np.sqrt(252)/np.std(factors)
 
-p = 100
-n=1000
-retornos = fc.simulate_rets_mom(p=p,n=n)
+start = "1/1/2010"
+end   = datetime.date(datetime.now())
+
+retornos = fc.simulate_rets_mom(p=100,start=start, end=end)
 sr_rets = retornos.mean()*np.sqrt(252)/np.std(retornos)
 
 ret_tsmom = fc.naive_tsmom(retornos, look_back = 252, vol_target=0.4)
