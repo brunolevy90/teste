@@ -23,15 +23,15 @@ def simulate_rets_factors(k=3, p=10,n=1000):
 
 
 
-def simulate_rets_mom(p=10,n=1000):
+def simulate_rets_mom(p,n):
     # p: number of assets
     # n: sample size
-    retornos = pd.DataFrame()
+    retornos = pd.DataFrame(index=range(n))
 
     for i in range(p):
         ret = []
         ret.append(0)
-        for t in range(n):
+        for t in retornos.index:
             if t>0:
                 temp = np.random.uniform(0, 0.3, size=1)*ret[t-1]+np.random.normal(loc=0,scale=0.01)
                 ret.append(float(temp))
