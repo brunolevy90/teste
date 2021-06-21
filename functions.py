@@ -23,8 +23,7 @@ def simulate_rets_factors(k=3, p=10,n=1000):
 
 
 
-def simulate_rets_mom(k=3, p=10,n=1000):
-    # k: number of common factors
+def simulate_rets_mom(p=10,n=1000):
     # p: number of assets
     # n: sample size
     retornos = pd.DataFrame()
@@ -35,21 +34,11 @@ def simulate_rets_mom(k=3, p=10,n=1000):
         for t in range(n):
             if t>0:
                 temp = np.random.uniform(0, 0.3, size=1)*ret[t-1]+np.random.normal(loc=0,scale=0.01)
-                ret.append(temp)
+                ret.append(float(temp))
 
-        retornos['Ret' + str(i)] = pd.Series(ret, index=range(100))
+        retornos['Ret' + str(i)] = pd.Series(ret, index=range(n))
 
-
-
-
-
-
-    for i in range(p):
-        retornos['Ret' + str(i)] = factors.dot(np.random.uniform(0, 1.5, size=k)) + np.random.normal(loc=0,
-                                                                                                     scale=0.01,
-                                                                                                     size=n)
-
-    return factors, retornos
+    return  retornos
 
 
 
