@@ -88,7 +88,7 @@ def logistic_tsmom(rets, look_back = 52, vol_target, train_size):
     ret_signals = np.sign(ret_new)
     ret_signals[ret_signals==-1] = 0
     vols = pd.DataFrame(index=ret_new.index)
-    tsmom_preditores = prices.pct_change(look_back).iloc[look_back+1:]
+    tsmom_preditores = prices.pct_change(look_back).shift().iloc[look_back+1:]
     df_strat = pd.DataFrame(index=ret_new.index, columns=ret_new.columns)
     accuracy = []
 
